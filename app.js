@@ -2,6 +2,7 @@
 const express = require("express");
 const logger = require('morgan');
 
+const pizzasArr = require("./data/pizzas-data.json");
 
 // Create an express server instance named `app`
 // `app` is the Express server that will be handling requests and responses
@@ -50,26 +51,7 @@ app.get("/contact", (req, res, next) => {
 
 // GET /pizzas
 app.get("/pizzas", (req, res, next) => {
-
-    const pizzasArr = [
-        {
-          title: 'Pizza Margarita',
-          price: 12,
-          imageFile: 'pizza-margarita.jpg',
-        },
-        {
-            title: "Veggie Pizza",
-            price: 15,
-            imageFile: "pizza-veggie.jpg"
-        }, 
-        {
-            title: "Seafood Pizza",
-            imageFile: "pizza-seafood.jpg"
-        }
-    ];
-
     res.json(pizzasArr);
-
 });
 
 

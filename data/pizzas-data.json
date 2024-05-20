@@ -1,0 +1,16 @@
+[
+    {
+        "title": "Pizza Margarita",
+        "price": 12,
+        "imageFile": "pizza-margarita.jpg"
+    },
+    {
+        "title": "Veggie Pizza",
+        "price": 15,
+        "imageFile": "pizza-veggie.jpg"
+    },
+    {
+        "title": "Seafood Pizza",
+        "imageFile": "pizza-seafood.jpg"
+    }
+]
