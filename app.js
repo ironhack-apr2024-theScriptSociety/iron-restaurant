@@ -50,8 +50,21 @@ app.get("/contact", (req, res, next) => {
 
 
 // GET /pizzas
+// GET /pizzas?maxPrice=xxx
 app.get("/pizzas", (req, res, next) => {
-    res.json(pizzasArr);
+
+    let {maxPrice} = req.query;
+    maxPrice = parseInt(maxPrice); // convert maxPrice to a number
+
+    // if maxPrice not provided, return the whole list
+    if( isNaN(maxPrice) ){
+        res.json(pizzasArr);
+        return;
+    }
+
+    // if maxPrice is provided, get the pizzas that are less than or equal to maxPrice
+    const filteredPizzas = pizzasArr.filter( element => element.price <= maxPrice );
+    res.json(filteredPizzas);
 });
 
 
