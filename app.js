@@ -56,6 +56,32 @@ app.get("/pizzas", (req, res, next) => {
 
 
 
+// GET /pizzas/xxxx
+app.get("/pizzas/:pizzaId", (req, res, next) => {
+    
+    //console.log(req.params);
+
+    // let pizzaId = req.params.pizzaId;
+
+    let {pizzaId} = req.params;
+
+    pizzaId = parseInt(pizzaId); // convert pizzaId to a number 
+
+    if( isNaN(pizzaId) ){
+        res.status(400).json({message: "Invalid pizza id"});
+        return; // finish current function
+    }
+
+    const result = pizzasArr.find( element => element.id === pizzaId )
+
+    res.json(result);
+
+});
+
+
+
+
+
 // Start the server
 const PORT = 5000;
 app.listen(PORT, () => console.log(`My first app listening on port ${PORT} `));
