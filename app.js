@@ -47,45 +47,31 @@ app.get("/contact", (req, res, next) => {
 
 
 // GET /pizzas
-// GET /pizzas?maxPrice=xxx
 app.get("/pizzas", (req, res, next) => {
-
-    let {maxPrice} = req.query;
-    maxPrice = parseInt(maxPrice); // convert maxPrice to a number
-
-    // if maxPrice not provided, return the whole list
-    if( isNaN(maxPrice) ){
-        res.json(pizzasArr);
-        return;
-    }
-
-    // if maxPrice is provided, get the pizzas that are less than or equal to maxPrice
-    const filteredPizzas = pizzasArr.filter( element => element.price <= maxPrice );
-    res.json(filteredPizzas);
+    Pizza.find()
+        .then( pizzaArr => {
+            res.json(pizzaArr);
+        })
+        .catch((error) => {
+            console.error("Error getting pizzas from DB...", error);
+            res.status(500).json({ error: "Failed to get list of pizzas" });
+        });
 });
 
 
-
-// GET /pizzas/xxxx
+// GET /pizzas/:pizzaId
 app.get("/pizzas/:pizzaId", (req, res, next) => {
-    
-    //console.log(req.params);
 
-    // let pizzaId = req.params.pizzaId;
+    const {pizzaId } = req.params;
 
-    let {pizzaId} = req.params;
-
-    pizzaId = parseInt(pizzaId); // convert pizzaId to a number 
-
-    if( isNaN(pizzaId) ){
-        res.status(400).json({message: "Invalid pizza id"});
-        return; // finish current function
-    }
-
-    const result = pizzasArr.find( element => element.id === pizzaId )
-
-    res.json(result);
-
+    Pizza.findById(pizzaId)
+        .then( pizzaFromDB => {
+            res.json(pizzaFromDB);
+        })
+        .catch((error) => {
+            console.error("Error getting pizzas details from DB...", error);
+            res.status(500).json({ error: "Failed to get pizza details" });
+        });
 });
 
 
