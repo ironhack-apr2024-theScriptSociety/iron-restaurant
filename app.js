@@ -4,7 +4,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const Pizza = require("./models/Pizza.model");
-const pizzasArr = require("./data/pizzas-data.json");
+const Cook = require("./models/Cook.model");
 
 // Create an express server instance named `app`
 // `app` is the Express server that will be handling requests and responses
@@ -129,6 +129,24 @@ app.delete("/pizzas/:pizzaId", (req, res, next) => {
             res.status(500).json({ error: "Failed to delete a pizza" });
         });
 });
+
+
+
+// POST /cooks - create new Cook
+app.post("/cooks", (req, res, next) => {
+    
+    const cookDetails = req.body;
+
+    Cook.create(cookDetails)
+        .then((cookFromDB) => {
+            console.log("Success, cook created!", cookFromDB);
+            res.status(201).json(cookFromDB);
+        })
+        .catch((error) => {
+            console.error("Error creating a new cook...", error);
+            res.status(500).json({ error: "Failed to create a new cook" });
+        });
+})
 
 
 
