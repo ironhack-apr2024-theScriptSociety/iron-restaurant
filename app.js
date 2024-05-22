@@ -1,7 +1,9 @@
 // require Express so we can use it in our app.
 const express = require("express");
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
+const Pizza = require("./models/Pizza.model");
 const pizzasArr = require("./data/pizzas-data.json");
 
 // Create an express server instance named `app`
@@ -15,6 +17,16 @@ const app = express();
 app.use(logger('dev')); // Setup the request logger to run on each request
 app.use(express.static('public')); // Make the static files inside of the `public/` folder publicly accessible
 app.use(express.json()); // JSON middleware to parse incoming HTTP requests that contain JSON
+
+
+// 
+// Connect to DB
+// 
+mongoose.connect("mongodb://127.0.0.1:27017/iron-restaurant")
+    .then((response) => {
+        console.log(`Connected! Database Name: "${response.connections[0].name}"`);
+    })
+    .catch((err) => console.error("Error connecting to DB", err));
 
 
 
@@ -76,6 +88,23 @@ app.get("/pizzas/:pizzaId", (req, res, next) => {
 
 });
 
+
+
+// POST /pizzas
+app.post("/pizzas", (req, res, next) => {
+
+    const pizzaDetails = req.body;
+    
+    Pizza.create(pizzaDetails)
+        .then((pizzaFromDB) => {
+            console.log("Success, pizza created!", pizzaFromDB);
+            res.status(201).json(pizzaFromDB);
+        })
+        .catch((error) => {
+            console.error("Error creating a new pizza...", error);
+            res.status(500).json({ error: "Failed to create a new pizza" });
+        });
+})
 
 
 
