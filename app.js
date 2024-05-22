@@ -49,6 +49,7 @@ app.get("/contact", (req, res, next) => {
 // GET /pizzas - get all pizzas
 app.get("/pizzas", (req, res, next) => {
     Pizza.find()
+        .populate("cook")
         .then( pizzaArr => {
             res.json(pizzaArr);
         })
@@ -65,6 +66,7 @@ app.get("/pizzas/:pizzaId", (req, res, next) => {
     const {pizzaId } = req.params;
 
     Pizza.findById(pizzaId)
+        .populate("cook")
         .then( pizzaFromDB => {
             res.json(pizzaFromDB);
         })
