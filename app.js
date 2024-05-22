@@ -18,21 +18,6 @@ app.use(express.json()); // JSON middleware to parse incoming HTTP requests that
 
 
 
-// Example middleware 1
-app.use((req, res, next) => {
-    console.log("middleware 1");
-    next();
-})
-
-// Example middleware 2
-app.use((req, res, next) => {
-    console.log("middleware 2");
-    next();
-})
-
-
-
-
 // GET /
 app.get("/", (req, res, next) => {
     // res.send()
