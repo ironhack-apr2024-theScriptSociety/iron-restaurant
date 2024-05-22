@@ -46,7 +46,7 @@ app.get("/contact", (req, res, next) => {
 
 
 
-// GET /pizzas
+// GET /pizzas - get all pizzas
 app.get("/pizzas", (req, res, next) => {
     Pizza.find()
         .then( pizzaArr => {
@@ -59,7 +59,7 @@ app.get("/pizzas", (req, res, next) => {
 });
 
 
-// GET /pizzas/:pizzaId
+// GET /pizzas/:pizzaId - get details for one pizza
 app.get("/pizzas/:pizzaId", (req, res, next) => {
 
     const {pizzaId } = req.params;
@@ -76,7 +76,7 @@ app.get("/pizzas/:pizzaId", (req, res, next) => {
 
 
 
-// POST /pizzas
+// POST /pizzas - create new pizza
 app.post("/pizzas", (req, res, next) => {
 
     const pizzaDetails = req.body;
@@ -92,6 +92,26 @@ app.post("/pizzas", (req, res, next) => {
         });
 })
 
+
+
+// PUT /pizzas/:pizzaId - update pizza
+app.put("/pizzas/:pizzaId", (req, res, next) => {
+    
+    const {pizzaId} = req.params;
+    const newDetails = req.body;
+
+    // Model.findByIdAndUpdate(id, update [, options])
+
+    Pizza.findByIdAndUpdate(pizzaId, newDetails, { new: true })
+        .then( pizzaFromDB => {
+            console.log("Success, pizza updated!", pizzaFromDB);
+            res.json(pizzaFromDB);
+        })
+        .catch((error) => {
+            console.error("Error updating pizza...", error);
+            res.status(500).json({ error: "Failed to update a pizza" });
+        });
+});
 
 
 
