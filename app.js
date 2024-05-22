@@ -114,6 +114,24 @@ app.put("/pizzas/:pizzaId", (req, res, next) => {
 });
 
 
+// DELETE /pizzas/:pizzaId - delete pizza
+app.delete("/pizzas/:pizzaId", (req, res, next) => {
+    
+    const {pizzaId} = req.params;
+
+    Pizza.findByIdAndDelete(pizzaId)
+        .then( response => {
+            console.log("Success, pizza deleted!", response);
+            res.json(response);
+        })
+        .catch((error) => {
+            console.error("Error deleting pizza...", error);
+            res.status(500).json({ error: "Failed to delete a pizza" });
+        });
+});
+
+
+
 
 // Start the server
 const PORT = 5000;
