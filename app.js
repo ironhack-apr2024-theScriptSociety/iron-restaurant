@@ -30,21 +30,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/iron-restaurant")
 
 
 
-// GET /
-app.get("/", (req, res, next) => {
-    // res.send()
-    // res.json()
-    res.sendFile(__dirname + '/views/home-page.html');
-})
-
-
-
-// GET /contact
-app.get("/contact", (req, res, next) => {
-    res.sendFile(__dirname + '/views/contact-page.html');
-});
-
-
 
 // GET /pizzas - get all pizzas
 app.get("/pizzas", (req, res, next) => {
